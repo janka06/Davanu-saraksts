@@ -3,7 +3,7 @@ session_start();
 require_once "db.php";
 
 $isLoggedIn = $_SESSION["OK"] ?? false;
-$userId = $_SESSION["user"] ?? null;
+$userId = isset($_SESSION["user"]) ? (int)$_SESSION["user"] : null;
 
 // Fetch user details if logged in
 $userName = "ERROR: User not found.";
@@ -88,13 +88,13 @@ $conn->close();
         <?php foreach ($wishlistItems as $item): ?>
             <div class="ieraksts" data-name="<?= htmlspecialchars($item['name_sname']) ?>">
             <?php
-                if ($item['liked'] == 1 && $item['liked_by'] == $userId) {
+                if ($item['liked'] == 1 && (int)$item['liked_by'] === $userId) {
                     $cardClass = 'closed-card liked-by-you';
                 } elseif ($item['liked'] == 1) {
                     $cardClass = 'closed-card';
                 } else {
                     $cardClass = 'card';
-                }
+                }                
             ?>
             <div class="<?= $cardClass ?> d-flex flex-row align-items-center p-3 justify-content-between">
                     <img src="uploads/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>"
@@ -115,7 +115,7 @@ $conn->close();
                         </form>
                     <?php elseif ($item['liked'] == 0 AND $item['user_id'] == $userId): // Show the 'liked' icon if 'liked' is 1?>
                         <h4>Šī ir tava dāvana :p</h4>
-                    <?php elseif ($item['liked'] == 1 AND $item['liked_by'] == $userId): // Show the 'liked' icon if 'liked' is 1?>
+                    <?php elseif ($userId !== null && $item['liked'] == 1 && (int)$item['liked_by'] === $userId): ?>
                         <h4>Tu esi iegādājies šo dāvanu! :D</h4>
                     <?php else: ?>
                         <h4>Kāds to jau ir iegādājies! :D</h4>

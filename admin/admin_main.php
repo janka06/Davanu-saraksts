@@ -34,6 +34,7 @@ $userId = isset($_SESSION["user"]) ? $_SESSION["user"] : null;
                         </div>
                         <a href="admin_deleted.php"><button type="button" class="btn btn-dark me-2">Dzēstie ieraksti</button></a>
                         <a href="admin_database.php"><button type="button" class="btn btn-dark me-2">Datubāze</button></a>
+                        <a href="admin_history.php"><button type="button" class="btn btn-dark me-2">Vēsture</button></a>
                         <form action="../proc.php" method="post">
                             <button class="btn btn-danger me-2" type="submit">Iziet</button>
                         </form>
